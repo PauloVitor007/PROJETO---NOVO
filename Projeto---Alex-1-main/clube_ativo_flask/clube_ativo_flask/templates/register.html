@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Registo - Hub Comunitário{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="card auth-card">
+        <h2>Crie a sua Conta</h2>
+        <form method="post" novalidate>
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" name="email" id="email" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label for="username">Matrícula (12 dígitos)</label>
+                <input type="text" name="username" id="username" class="form-input" required placeholder="Ex: 202512340001" maxlength="12" minlength="12">
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" name="password" id="password" class="form-input" required>
+            </div>
+            <button type="submit" class="btn btn-full">Criar Conta</button>
+        </form>
+        <p class="auth-switch">Já tem uma conta? <a href="{{ url_for('login') }}">Faça o login</a></p>
+    </div>
+</div>
+{% endblock %}

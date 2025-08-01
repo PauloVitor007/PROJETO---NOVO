@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Ranking de Clubes - Hub Comunitário{% endblock %}
+
+{% block content %}
+    <h1 class="page-header">Ranking de Clubes</h1>
+        <p class="lead text-muted" style="margin-top: -1rem; margin-bottom: 2rem;">Clubes com mais membros no campus.</p>
+            <div class="ranking-list">
+                    {% for clube in clubes %}
+                                <div class="card ranking-item">
+                                                <span class="ranking-position">#{{ loop.index }}</span>
+                                                                <div class="ranking-info">
+                                                                                    <h4><a href="{{ url_for('detalhe_clube', clube_id=clube.id) }}">{{ clube.nome }}</a></h4>
+                                                                                                        <small class="text-muted">{{ clube.categoria }}</small>
+                                                                                                                        </div>
+                                                                                                                                        <span class="ranking-score"><i class="fas fa-users"></i> {{ clube.membros.count() }} Membros</span>
+                                                                                                                                                    </div>
+                                                                                                                                                            {% else %}
+                                                                                                                                                                        <p>Nenhum clube para rankear no momento.</p>
+                                                                                                                                                                                {% endfor %}
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                    {% endblock %}}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Fórum - {{ clube.nome }}{% endblock %}
+
+{% block content %}
+    <div class="page-header-container">
+        <div>
+            <h1 class="page-header">Fórum do {{ clube.nome }}</h1>
+            <a href="{{ url_for('detalhe_clube', clube_id=clube.id) }}" class="back-link-container" style="margin: 0; padding: 0;">&larr; Voltar para o clube</a>
+        </div>
+        <a href="{{ url_for('clube_criar_topico', clube_id=clube.id) }}" class="btn"><i class="fas fa-plus"></i> Criar Novo Tópico</a>
+    </div>
+    <div class="forum-list">
+        {% for topico in topicos %}
+            <a href="{{ url_for('clube_detalhe_topico', clube_id=clube.id, topico_id=topico.id) }}" class="card topic-item">
+                <div class="topic-main">
+                    <h4>{{ topico.titulo }}</h4>
+                    <p class="text-muted">Iniciado por {{ topico.autor.username }} em {{ topico.data_criacao.strftime('%d/%m/%Y') }}</p>
+                </div>
+                <div class="topic-meta">
+                    <span><i class="fas fa-comments"></i> {{ topico.posts.count() }} Respostas</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </a>
+        {% else %}
+            <div class="card empty-state">
+                <p>Nenhum tópico no fórum deste clube ainda. Seja o primeiro a criar um!</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

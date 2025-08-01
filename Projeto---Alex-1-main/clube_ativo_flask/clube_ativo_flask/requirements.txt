@@ -1,0 +1,7 @@
+flask
+python-dotenv
+Flask-SQLAlchemy
+Flask-Migrate
+Flask-Mail
+itsdangerous
+werkzeug

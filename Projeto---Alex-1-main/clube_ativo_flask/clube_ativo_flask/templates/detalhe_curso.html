@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}{{ clube.nome }} - Hub Comunitário{% endblock %}
+
+{% block content %}
+<div class="back-link-container">
+    <a href="{{ url_for('clubes') }}">&larr; Voltar para a lista de clubes</a>
+</div>
+<div class="card">
+    <div class="card-header">
+        <h2>{{ clube.nome }}</h2>
+        <span class="vagas-badge-lg" style="font-size: 1rem;"><i class="fas fa-tag"></i> {{ clube.categoria }}</span>
+    </div>
+    <div class="card-body">
+        <p class="lead">{{ clube.descricao }}</p>
+        <p><strong>Membros:</strong> {{ clube.membros.count() }}</p>
+    </div>
+</div>
+
+<h3 class="page-header" style="margin-top: 2rem;">Próximos Eventos do Clube</h3>
+{% if eventos_futuros %}
+    <div class="course-grid">
+    {% for evento in eventos_futuros %}
+        {% include 'partials/evento_card.html' %}
+    {% endfor %}
+    </div>
+{% else %}
+    <p class="text-muted">Este clube não tem eventos futuros agendados.</p>
+{% endif %}
+
+<h3 class="page-header" style="margin-top: 2rem;">Eventos Passados</h3>
+{% if eventos_passados %}
+    <ul class="simple-list">
+    {% for evento in eventos_passados %}
+        <li><a href="{{ url_for('detalhe_evento', evento_id=evento.id) }}">{{ evento.titulo }}</a> - <small>{{ evento.data_evento.strftime('%d/%m/%Y') }}</small></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p class="text-muted">Nenhum evento passado registrado para este clube.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Galeria de Mídia - {{ clube.nome }}{% endblock %}
+
+{% block content %}
+<div class="page-header-container">
+    <div>
+        <h1 class="page-header">Galeria de Mídia de {{ clube.nome }}</h1>
+        <a href="{{ url_for('detalhe_clube', clube_id=clube.id) }}" class="back-link-container" style="margin: 0; padding: 0;">&larr; Voltar para o clube</a>
+    </div>
+</div>
+
+{% if current_user_data.id == clube.lider_id %}
+<div class="card mb-4">
+    <div class="card-header"><h4><i class="fas fa-upload"></i> Enviar Nova Mídia</h4></div>
+    <div class="card-body">
+        <form action="{{ url_for('clube_media', clube_id=clube.id) }}" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="media_file">Arquivo (Imagem, Vídeo, PDF)</label>
+                <input type="file" name="media_file" id="media_file" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label for="descricao">Descrição (opcional)</label>
+                <input type="text" name="descricao" id="descricao" class="form-input" placeholder="Breve descrição do arquivo">
+            </div>
+            <button type="submit" class="btn">Enviar</button>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+<div class="media-gallery">
+    {% for media in media_files %}
+        <div class="media-item">
+            {% set ext = media.filename.rsplit('.', 1)[1].lower() %}
+            {% if ext in ['jpg', 'jpeg', 'png', 'gif', 'webp'] %}
+                <a href="{{ url_for('static', filename='club_media/' + media.filename) }}" target="_blank">
+                    <img src="{{ url_for('static', filename='club_media/' + media.filename) }}" alt="{{ media.descricao or 'Mídia do clube' }}">
+                </a>
+            {% elif ext in ['mp4', 'mov'] %}
+                <video controls>
+                    <source src="{{ url_for('static', filename='club_media/' + media.filename) }}" type="video/mp4">
+                    Seu navegador não suporta vídeos.
+                </video>
+            {% else %}
+                 <a href="{{ url_for('static', filename='club_media/' + media.filename) }}" target="_blank" class="p-3 d-flex flex-column align-items-center justify-content-center" style="height: 200px; text-decoration: none;">
+                    <i class="fas fa-file-alt fa-4x text-muted"></i>
+                    <span class="mt-2 text-center">{{ media.filename }}</span>
+                </a>
+            {% endif %}
+            <div class="media-info">
+                <p>{{ media.descricao or 'Sem descrição' }}</p>
+                <small>Enviado por {{ media.uploader.username }} em {{ media.data_upload.strftime('%d/%m/%Y') }}</small>
+            </div>
+        </div>
+    {% else %}
+        <div class="card empty-state" style="grid-column: 1 / -1;">
+            <p>Nenhuma mídia foi enviada para este clube ainda.</p>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

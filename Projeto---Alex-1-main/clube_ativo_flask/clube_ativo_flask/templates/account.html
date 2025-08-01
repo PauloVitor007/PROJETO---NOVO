@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}Minha Conta - Hub Comunitário{% endblock %}
+
+{% block content %}
+<div class="account-grid">
+    <div class="account-sidebar">
+        <div class="card text-center">
+            <img class="account-img" src="{{ image_file }}" alt="Foto de Perfil">
+            <h3>{{ current_user_data.username }}</h3>
+            <p class="text-muted">{{ current_user_data.email }}</p>
+        </div>
+        <div class="card">
+            <div class="card-header"><h4>Atualizar Foto</h4></div>
+            <div class="card-body">
+                <form action="{{ url_for('account') }}" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="picture">Escolher nova foto:</label>
+                        <input type="file" name="picture" class="form-input" id="picture">
+                    </div>
+                    <button type="submit" class="btn">Guardar Foto</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="account-main">
+        <div class="card">
+            <div class="card-header"><h4>Meus Eventos Inscritos</h4></div>
+            <div class="card-body">
+                {% if eventos and eventos.count() > 0 %}
+                    <ul class="course-list">
+                        {% for evento in eventos %}
+                            <li class="list-item">
+                                <span>{{ evento.titulo }}</span>
+                                <a href="{{ url_for('detalhe_evento', evento_id=evento.id) }}" class="btn btn-secondary">Ver</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="empty-state">
+                        <p>Você ainda não se inscreveu em nenhum evento.</p>
+                        <a href="{{ url_for('eventos') }}" class="btn">Ver eventos disponíveis</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <div class="card-header"><h4><i class="fas fa-shield-alt"></i> Meus Selos</h4></div>
+            <div class="card-body">
+                {% if current_user_data.badges.count() > 0 %}
+                    <div class="badges-grid">
+                        {% for badge in current_user_data.badges.all() %}
+                            <div class="badge-item" title="{{ badge.descricao }}">
+                                <i class="{{ badge.icon_class }} fa-2x"></i>
+                                <span>{{ badge.nome }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <p>Você ainda não desbloqueou nenhum selo.</p>
+                        <p class="text-muted">Participe dos clubes e eventos para ganhar!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <div class="card-header"><h4>Alterar Senha</h4></div>
+            <div class="card-body">
+                <form action="{{ url_for('change_password') }}" method="POST">
+                    <div class="form-group"><label for="old_password">Senha Antiga</label><input type="password" name="old_password" id="old_password" class="form-input" required></div>
+                    <div class="form-group"><label for="new_password">Nova Senha</label><input type="password" name="new_password" id="new_password" class="form-input" required></div>
+                    <div class="form-group"><label for="confirm_password">Confirmar Nova Senha</label><input type="password" name="confirm_password" id="confirm_password" class="form-input" required></div>
+                    <button type="submit" class="btn">Salvar Nova Senha</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem; border: 2px solid #e74c3c;">
+            <div class="card-header"><h4>Zona de Perigo</h4></div>
+            <div class="card-body">
+                <p class="text-muted">A exclusão da sua conta é uma ação permanente e não pode ser desfeita.</p>
+                <form action="{{ url_for('delete_account') }}" method="POST" onsubmit="return confirm('Tem certeza absoluta que deseja excluir sua conta? Esta ação é irreversível.');">
+                    <div class="form-group"><label for="password_delete">Digite sua senha para confirmar</label><input type="password" name="password" id="password_delete" class="form-input" required></div>
+                    <button type="submit" class="btn btn-danger">Excluir Minha Conta Permanentemente</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

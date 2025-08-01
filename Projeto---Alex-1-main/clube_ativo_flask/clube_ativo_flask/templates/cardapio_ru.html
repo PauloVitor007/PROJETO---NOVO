@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Cardápio do RU - Hub Comunitário{% endblock %}
+
+{% block content %}
+<h1 class="page-header">Cardápio do Restaurante Universitário</h1>
+<p class="lead text-muted" style="margin-top: -1rem; margin-bottom: 2rem;">
+    Semana de {{ start_of_week.strftime('%d/%m') }} a {{ (start_of_week + timedelta(days=6)).strftime('%d/%m/%Y') }}
+</p>
+
+{% set dias = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo'] %}
+
+<div class="card-deck">
+    {% for i in range(5) %} {# Exibe de Segunda a Sexta #}
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>{{ dias[i] }}</h5>
+            <small class="text-muted">{{ (start_of_week + timedelta(days=i)).strftime('%d/%m') }}</small>
+        </div>
+        <div class="card-body">
+            {% if cardapio_semana.get(i) %}
+                {% set item = cardapio_semana.get(i) %}
+                <h6 class="card-title">Prato Principal</h6>
+                <p class="card-text">{{ item.prato_principal }}</p>
+                <h6 class="card-title">Opção Vegetariana</h6>
+                <p class="card-text">{{ item.vegetariano }}</p>
+                <hr>
+                <p class="card-text"><strong>Acompanhamento:</strong> {{ item.acompanhamento }}</p>
+                <p class="card-text"><strong>Salada:</strong> {{ item.salada }}</p>
+                <p class="card-text"><strong>Sobremesa:</strong> {{ item.sobremesa }}</p>
+            {% else %}
+                <p class="text-muted">Cardápio não disponível para este dia.</p>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

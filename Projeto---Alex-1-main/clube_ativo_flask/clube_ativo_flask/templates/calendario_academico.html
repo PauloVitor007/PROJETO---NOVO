@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Calendário Acadêmico - Hub Comunitário{% endblock %}
+
+{% block content %}
+<h1 class="page-header">Calendário Acadêmico</h1>
+<p class="lead text-muted" style="margin-top: -1rem; margin-bottom: 2rem;">Próximas datas e eventos importantes do campus.</p>
+
+<div class="card">
+    <div class="card-body">
+        {% if eventos %}
+            <ul class="course-list">
+                {% for evento in eventos %}
+                    <li class="list-item">
+                        <div>
+                            <strong>{{ evento.data.strftime('%d/%m/%Y') }}</strong> - {{ evento.descricao }}
+                        </div>
+                        <span class="vagas-badge">{{ evento.tipo }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="empty-state">
+                <p>Nenhum evento futuro encontrado no calendário acadêmico.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

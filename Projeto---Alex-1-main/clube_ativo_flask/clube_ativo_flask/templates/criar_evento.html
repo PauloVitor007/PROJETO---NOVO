@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Criar Evento - {{ clube.nome }}{% endblock %}
+
+{% block content %}
+    <div class="back-link-container">
+        <a href="{{ url_for('detalhe_clube', clube_id=clube.id) }}">&larr; Voltar para {{ clube.nome }}</a>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2>Criar Novo Evento para "{{ clube.nome }}"</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="titulo">Título do Evento</label>
+                    <input type="text" name="titulo" id="titulo" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="descricao">Descrição Completa</label>
+                    <textarea name="descricao" id="descricao" class="form-input" rows="6" placeholder="Descreva o evento, local, objetivos, etc." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="vagas">Número de Vagas</label>
+                    <input type="number" name="vagas" id="vagas" class="form-input" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="data_evento">Data e Hora do Evento</label>
+                    <input type="datetime-local" name="data_evento" id="data_evento" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-success"><i class="fas fa-plus-circle"></i> Criar e Divulgar Evento</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

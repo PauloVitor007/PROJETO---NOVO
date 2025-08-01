@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Hub de Serviços - Hub Comunitário{% endblock %}
+
+{% block content %}
+    <h1 class="page-header">Hub de Serviços</h1>
+    <p class="lead text-muted" style="margin-top: -1rem; margin-bottom: 2rem;">Acesso rápido a informações essenciais do campus.</p>
+
+    <div class="hub-grid">
+        <a href="{{ url_for('cardapio') }}" class="card hub-card hub-link">
+            <div class="hub-card-icon"><i class="fas fa-utensils"></i></div>
+            <h3>Cardápio do RU</h3>
+            <p>Veja o cardápio da semana do Restaurante Universitário.</p>
+        </a>
+
+        <a href="{{ url_for('calendario_academico') }}" class="card hub-card hub-link">
+            <div class="hub-card-icon"><i class="fas fa-calendar-alt"></i></div>
+            <h3>Calendário Acadêmico</h3>
+            <p>Confira as datas importantes, feriados e eventos do semestre.</p>
+        </a>
+
+        <div class="card hub-card hub-link disabled"> <div class="hub-card-icon"><i class="fas fa-book"></i></div>
+            <h3>Acervo da Biblioteca</h3>
+            <p>Acesse o sistema da biblioteca para pesquisar livros e fazer reservas. (Em breve)</p>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top: 2rem;">
+        <div class="card-header"><h4><i class="fas fa-calendar-check"></i> Próximos Eventos</h4></div>
+        <div class="card-body">
+            {% if eventos_futuros and eventos_futuros|length > 0 %}
+                <ul class="simple-list">
+                {% for evento in eventos_futuros %}
+                    <li><a href="{{ url_for('detalhe_evento', evento_id=evento.id) }}">{{ evento.titulo }}</a> <small>({{ evento.data_evento.strftime('%d/%m') }})</small></li>
+                {% endfor %}
+                </ul>
+                <a href="{{ url_for('eventos') }}" class="btn" style="margin-top: 1rem;">Ver Todos os Eventos</a>
+            {% else %}
+                 <div class="empty-state">
+                    <p>Nenhum evento futuro agendado no momento.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

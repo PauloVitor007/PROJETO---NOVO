@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Feed de Notícias - Hub Comunitário{% endblock %}
+
+{% block content %}
+    <h1 class="page-header">Feed de Notícias</h1>
+    <div class="news-feed">
+        {% for noticia in noticias %}
+            <div class="card news-card">
+                <div class="card-body">
+                    <h3>{{ noticia.titulo }}</h3>
+                    <div class="news-meta">
+                        <span><i class="fas fa-calendar-alt"></i> {{ noticia.data_publicacao.strftime('%d de %b de %Y') }}</span>
+                        {% if noticia.evento %}
+                        <span><i class="fas fa-chalkboard"></i> <a href="{{ url_for('detalhe_evento', evento_id=noticia.evento.id) }}">{{ noticia.evento.titulo }}</a></span>
+                        {% endif %}
+                    </div>
+                    <p>{{ noticia.conteudo }}</p>
+                </div>
+            </div>
+        {% else %}
+            <div class="card empty-state">
+                <p>Nenhuma notícia publicada ainda. Volte em breve!</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

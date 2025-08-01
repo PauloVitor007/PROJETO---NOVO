@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Criar Tópico - {{ clube.nome }}{% endblock %}
+
+{% block content %}
+    <div class="back-link-container">
+        <a href="{{ url_for('clube_forum', clube_id=clube.id) }}">&larr; Voltar para o Fórum do Clube</a>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2>Criar Novo Tópico em "{{ clube.nome }}"</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="titulo">Título do Tópico</label>
+                    <input type="text" name="titulo" id="titulo" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="conteudo">Conteúdo</label>
+                    <textarea name="conteudo" id="conteudo" class="form-input" rows="8" placeholder="Descreva o seu tópico em detalhe..." required></textarea>
+                </div>
+                <button type="submit" class="btn"><i class="fas fa-plus-circle"></i> Publicar Tópico</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Eventos Disponíveis - Hub Comunitário{% endblock %}
+
+{% block content %}
+    <h1 class="page-header">Eventos Disponíveis</h1>
+    <div class="course-grid">
+        {% for evento in eventos %}
+            {% include 'partials/evento_card.html' %}
+        {% else %}
+            <p>Nenhum evento disponível no momento.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

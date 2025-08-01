@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}{{ topico.titulo }} - Fórum de {{ clube.nome }}{% endblock %}
+
+{% block content %}
+    <div class="back-link-container">
+        <a href="{{ url_for('clube_forum', clube_id=clube.id) }}">&larr; Voltar para o Fórum do Clube</a>
+    </div>
+
+    <div class="card topic-post">
+        <div class="post-header">
+            <img src="{{ url_for('static', filename='profile_pics/' + topico.autor.image_file) }}" class="post-author-img">
+            <div class="post-author-info">
+                <strong>{{ topico.autor.username }}</strong>
+                <small>Postado em {{ topico.data_criacao.strftime('%d/%m/%Y às %H:%M') }}</small>
+            </div>
+        </div>
+        <div class="post-body">
+            <h2>{{ topico.titulo }}</h2>
+            <p>{{ topico.conteudo }}</p>
+        </div>
+    </div>
+
+    <h3 class="page-header" style="margin-top: 2rem;">Respostas</h3>
+    <div class="post-thread">
+        {% for post in posts %}
+            <div class="card post">
+                 <div class="post-header">
+                    <img src="{{ url_for('static', filename='profile_pics/' + post.autor.image_file) }}" class="post-author-img">
+                    <div class="post-author-info">
+                        <strong>{{ post.autor.username }}</strong>
+                        <small>Postado em {{ post.data_criacao.strftime('%d/%m/%Y às %H:%M') }}</small>
+                    </div>
+                </div>
+                <div class="post-body">
+                    <p>{{ post.conteudo }}</p>
+                </div>
+            </div>
+        {% else %}
+            <p class="text-muted">Nenhuma resposta ainda. Seja o primeiro a responder!</p>
+        {% endfor %}
+    </div>
+
+    <div class="card reply-card">
+        <h4>Deixe a sua Resposta</h4>
+        <form method="POST">
+            <div class="form-group">
+                <textarea name="conteudo" class="form-input" rows="4" placeholder="Escreva a sua resposta aqui..." required></textarea>
+            </div>
+            <button type="submit" class="btn"><i class="fas fa-reply"></i> Enviar Resposta</button>
+        </form>
+    </div>
+{% endblock %}

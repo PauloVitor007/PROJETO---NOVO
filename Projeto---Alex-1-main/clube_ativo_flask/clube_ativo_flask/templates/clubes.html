@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Clubes -  ConectaIF{% endblock %}
+
+{% block content %}
+    <h1 class="page-header">Clubes do Campus</h1>
+    <div class="course-grid">
+        {% for clube in clubes %}
+            <a href="{{ url_for('detalhe_clube', clube_id=clube.id) }}" class="card-link">
+                <div class="card course-card">
+                    <h3>{{ clube.nome }}</h3>
+                    <p class="text-muted">{{ clube.descricao|truncate(120) }}</p>
+                    <div class="card-footer">
+                        <span><i class="fas fa-tag"></i> {{ clube.categoria }}</span>
+                        <span class="vagas-badge"><i class="fas fa-users"></i> {{ clube.membros.count() }} Membros</span>
+                    </div>
+                </div>
+            </a>
+        {% else %}
+            <p>Nenhum clube encontrado.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
